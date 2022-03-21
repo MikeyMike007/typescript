@@ -1,0 +1,23 @@
+{
+  "name": "004-sort",
+  "version": "1.0.0",
+  "description": "Compile typescript code into JavaScript: `tsc file.ts` Compile typescript continuously into JavaScript: `tsc -w file.rts` Initiate the typescript compiler: `tsc --init`. Please then modify `tsconfig.json`.",
+  "main": "index.js",
+  "scripts": {
+    "start:build": "tsc -w",
+    "start:run": "nodemon build/index.js",
+    "start": "concurrently npm:start:*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.15.0",
+    "@typescript-eslint/parser": "^5.15.0",
+    "eslint": "^8.11.0"
+  },
+  "dependencies": {
+    "concurrently": "^7.0.0",
+    "nodemon": "^2.0.15"
+  }
+}
