@@ -11,6 +11,7 @@ export interface UserProps {
 }
 
 const rootUrl = 'http://localhost:3000/users'
+
 export class User extends Model<UserProps> {
   static buildUser(attrs: UserProps): User {
     return new User(
@@ -25,16 +26,8 @@ export class User extends Model<UserProps> {
       (json: UserProps) => User.buildUser(json)
     )
   }
-
-  //   return this.get('id') === 1
-  // }
-
-  // // Example of another buildUser function
-  // static buildLocalUser(attrs: UserProps): User {
-  //   return new User(
-  //     new Attributes<UserProps>(attrs),
-  //     new Eventing(),
-  //     new LocalSync<UserProps>(rootUrl)
-  //   )
-  // }
+  setRandomAge(): void {
+    const age = Math.round(Math.random() * 100)
+    this.set({ age })
+  }
 }
