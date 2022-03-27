@@ -2642,107 +2642,105 @@ exports.ApiSync = ApiSync;
 },{"axios":"node_modules/axios/index.js"}],"src/models/Attributes.ts":[function(require,module,exports) {
 "use strict";
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Attributes = void 0;
 
-var Attributes =
-/** @class */
-function () {
+var Attributes = /*#__PURE__*/function () {
   function Attributes(data) {
     var _this = this;
+
+    _classCallCheck(this, Attributes);
 
     this.data = data;
 
     this.get = function (key) {
-      // Arrow so this is always a attributes object and not a user object.
       return _this.data[key];
     };
   }
 
-  Attributes.prototype.set = function (update) {
-    Object.assign(this.data, update);
-  };
-
-  Attributes.prototype.getAll = function () {
-    return this.data;
-  };
+  _createClass(Attributes, [{
+    key: "set",
+    value: function set(update) {
+      Object.assign(this.data, update);
+    }
+  }, {
+    key: "getAll",
+    value: function getAll() {
+      return this.data;
+    }
+  }]);
 
   return Attributes;
 }();
 
-exports.Attributes = Attributes; // import { UserProps } from './User'
-// const attrs = new Attributes<UserProps>({
-//   id: 5,
-//   age: 20,
-//   name: 'Testname',
-// })
-//
-// const name = attrs.get('name')
-// const age = attrs.get('age')
-// const id = attrs.get('id')
-//
-// WITHOUT CODE <K extends keyof T>(key: K): T[K]
-// All keys would be of type string
-// Now the keys are according to the types of UserProps
-// console.log(typeof name) // string
-// console.log(typeof age) // number
-// console.log(typeof id) // number
+exports.Attributes = Attributes;
 },{}],"src/models/Model.ts":[function(require,module,exports) {
 "use strict";
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Model = void 0;
 
-var Model =
-/** @class */
-function () {
+var Model = /*#__PURE__*/function () {
   function Model(attributes, events, sync) {
+    _classCallCheck(this, Model);
+
     this.attributes = attributes;
     this.events = events;
-    this.sync = sync; // You can also have getter functions
-    // Which is meaybe better
-    // This would not have worked if the initiations of the constructor arguments
-    // would be initiated inside the constructor function
-
-    this.on = this.events.on; // Return reference of function
-
-    this.trigger = this.events.trigger; // Return reference of function
-
-    this.get = this.attributes.get; // Return reference of function
+    this.sync = sync;
+    this.on = this.events.on;
+    this.trigger = this.events.trigger;
+    this.get = this.attributes.get;
   }
 
-  Model.prototype.set = function (update) {
-    this.attributes.set(update);
-    this.events.trigger('change');
-  };
-
-  Model.prototype.fetch = function () {
-    var _this = this;
-
-    var id = this.get('id');
-
-    if (typeof id !== 'number') {
-      throw new Error('Cannot fetch without an id');
+  _createClass(Model, [{
+    key: "set",
+    value: function set(update) {
+      this.attributes.set(update);
+      this.events.trigger('change');
     }
+  }, {
+    key: "fetch",
+    value: function fetch() {
+      var _this = this;
 
-    this.sync.fetch(id).then(function (response) {
-      _this.set(response.data);
-    });
-  };
+      var id = this.get('id');
 
-  Model.prototype.save = function () {
-    var _this = this;
+      if (typeof id !== 'number') {
+        throw new Error('Cannot fetch without an id');
+      }
 
-    this.sync.save(this.attributes.getAll()).then(function (response) {
-      _this.trigger('save');
-    }).catch(function () {
-      _this.trigger('error');
-    });
-  };
+      this.sync.fetch(id).then(function (response) {
+        _this.set(response.data);
+      });
+    }
+  }, {
+    key: "save",
+    value: function save() {
+      var _this2 = this;
+
+      this.sync.save(this.attributes.getAll()).then(function (response) {
+        _this2.trigger('save');
+      }).catch(function () {
+        _this2.trigger('error');
+      });
+    }
+  }]);
 
   return Model;
 }();
